@@ -29,12 +29,7 @@ export default [
             nodeResolve(),
             commonjs(),
             typescript({ tsconfig: "./tsconfig.json" }),
-            postcss({
-                plugins: [autoprefixer()],
-                sourceMap: true,
-                extract: true,
-                minimize: true
-            }),
+            postcss(),
             terser(),
         ],
         external: ["react", "react-dom", "styled-components"]
