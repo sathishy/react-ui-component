@@ -6,7 +6,7 @@ import { DEFAULT_STYLES } from "./responsiveModal.styles";
 
 export type elementType = string | React.ReactNode;
 
-export interface ModalProps extends BoxProps {
+export interface ModalProps extends StylesProps {
   show: boolean;
   handleClose: () => void;
   title?: elementType;
@@ -34,14 +34,23 @@ export const Modal = (props: ModalProps) => {
       {show && (
         <Box {...DEFAULT_STYLES.backgroundContainer} {...backgroundStyles}>
           <Box {...DEFAULT_STYLES.modalContainer} {...remainingProps}>
-            <Box border={"0"} bg={"inherit"} position={"absolute"} top={"0"} right={"0"} margin={"0.625rem"}>
+            <Box
+              border={"0"}
+              bg={"inherit"}
+              position={"absolute"}
+              top={"0"}
+              right={"0"}
+              margin={"0.625rem"}
+            >
               {props?.closeIcon || (
                 <Button border={"0"} bg={"inherit"} onClick={handleClose}>
                   X
                 </Button>
               )}
             </Box>
-            {props?.modalHeader || <Box {...DEFAULT_STYLES.modalHeader}>{props?.title}</Box>}
+            {props?.modalHeader || (
+              <Box {...DEFAULT_STYLES.modalHeader}>{props?.title}</Box>
+            )}
 
             <Box {...DEFAULT_STYLES.modalBody}>
               {modalBody}
