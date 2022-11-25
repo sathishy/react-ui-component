@@ -2,6 +2,7 @@ import * as CSS from "csstype";
 import { DeviceBreakPointKeys, PartialCSSPropertiesHyphen, StylesProps } from "styled-system/types";
 import { getAppliedCssValues, getMediaQueryString, getBreakPointCSSValueFromArrayOfCSSProperties } from "./helpers";
 import { ThemeKeyName } from "styled-system/types";
+const COLORS: ThemeKeyName = "colors";
 /** returns media queries based on theme and breakpoints */
 export const mediaQueries = (props: StylesProps) => {
   /** returns cssPropertiesHyphenObject for a specific breakpoint */
@@ -45,8 +46,8 @@ export const mediaQueries = (props: StylesProps) => {
 
       /** Color */
       opacity: getResponsiveCSSPropertyValue(["opacity"]),
-      color: getResponsiveCSSPropertyValue(["color", "textColor"]),
-      "background-color": getResponsiveCSSPropertyValue(["bgColor", "backgroundColor"]),
+      color: getResponsiveCSSPropertyValue(["color", "textColor"], COLORS),
+      "background-color": getResponsiveCSSPropertyValue(["bgColor", "backgroundColor"], COLORS),
 
       /** Background */
       "background-image": getResponsiveCSSPropertyValue(["bgImg", "backgroundImage"]),
@@ -110,11 +111,11 @@ export const mediaQueries = (props: StylesProps) => {
       "border-left-style": getResponsiveCSSPropertyValue(["borderLeftStyle"]) as CSS.Property.BorderLeftStyle,
       "border-right-style": getResponsiveCSSPropertyValue(["borderRightStyle"]) as CSS.Property.BorderRightStyle,
       // border color
-      "border-color": getResponsiveCSSPropertyValue(["borderColor"]),
-      "border-top-color": getResponsiveCSSPropertyValue(["borderTopColor"]),
-      "border-bottom-color": getResponsiveCSSPropertyValue(["borderBottomColor"]),
-      "border-left-color": getResponsiveCSSPropertyValue(["borderLeftColor"]),
-      "border-right-color": getResponsiveCSSPropertyValue(["borderRightColor"]),
+      "border-color": getResponsiveCSSPropertyValue(["borderColor"], COLORS),
+      "border-top-color": getResponsiveCSSPropertyValue(["borderTopColor"], COLORS),
+      "border-bottom-color": getResponsiveCSSPropertyValue(["borderBottomColor"], COLORS),
+      "border-left-color": getResponsiveCSSPropertyValue(["borderLeftColor"], COLORS),
+      "border-right-color": getResponsiveCSSPropertyValue(["borderRightColor"], COLORS),
       // border radius
       "border-radius": getResponsiveCSSPropertyValue(["borderRadius"]),
       "border-top-left-radius": getResponsiveCSSPropertyValue(["borderTopLeftRadius"]),

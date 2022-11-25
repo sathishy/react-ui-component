@@ -1,11 +1,9 @@
-import React, { HTMLAttributes } from "react";
 import styled from "styled-components";
 import * as CSS from "csstype";
 import { StylesProps } from "styled-system/types";
 import { mediaQueries, styles } from "styled-system/utils";
 
-export type IHTMLDiv = Omit<HTMLAttributes<HTMLDivElement>, "height" | "width" | "color">;
-export interface BoxProps extends IHTMLDiv, StylesProps {
+export interface BoxProps extends StylesProps {
   cursor?: CSS.Properties["cursor"];
   color?: any;
 }
