@@ -1,7 +1,5 @@
 import { DeviceBreakPointKeys, PartialCSSPropertiesHyphen, StylesProps, ThemeKeyName } from "styled-system/types";
 import { DEVICE } from "constants/mediaQueries.constants";
-import { ThemeProps } from "styled-components";
-import {theme} from "styles/Theme";
 
 /**
  * returns whether a css-styled-object is empty or not
@@ -10,13 +8,25 @@ export const isCSSObjectEmpty = (cssPropertiesHyphenObject?: PartialCSSPropertie
   return cssPropertiesHyphenObject && Object?.keys(cssPropertiesHyphenObject)?.length === 0;
 };
 
-export const getCSSOnlyStringValueFromCSSProperties = (props: any, cssPropertiesArray: string[], themeKeyName?: ThemeKeyName) => {
+/**
+ * return css string with css properties hyphen
+ */
+export const getCSSOnlyStringValueFromCSSProperties = (
+  props: any,
+  cssPropertiesArray: string[],
+  themeKeyName?: ThemeKeyName,
+) => {
   let cssValue: string | number = "";
   cssPropertiesArray.forEach((cssProperty) => {
-    const CSS_VALUE = (props as any)?.[cssProperty];
-    if (typeof CSS_VALUE !== "object" && (CSS_VALUE || CSS_VALUE === 0)){
-      cssValue =  themeKeyName ? (props as any)?.theme?.[themeKeyName]?.[(props as any)?.[CSS_VALUE]] : CSS_VALUE;
-    } 
+    const cssValueFromProp = (props as any)?.[cssProperty];
+    if (typeof cssValueFromProp !== "object" && (cssValueFromProp || cssValueFromProp === 0)) {
+      let cssValueFromTheme = "";
+      if (themeKeyName) {
+        /** return only if value is present in theme object */
+        cssValueFromTheme = (props as any)?.theme?.[themeKeyName]?.[(props as any)?.[cssValueFromProp]];
+      }
+      cssValue = cssValueFromTheme || cssValueFromProp;
+    }
   });
   return cssValue;
 };
@@ -57,12 +67,19 @@ export const getBreakPointCSSValueFromArrayOfCSSProperties = (
   props: StylesProps,
   cssValuesArray: any[],
   breakpoint: DeviceBreakPointKeys,
-  themeKeyName?: ThemeKeyName
+  themeKeyName?: ThemeKeyName,
 ) => {
   let finalValue = "";
-  cssValuesArray.forEach((cssPropertyKey) => {
-    const VALUE = themeKeyName ? (props as any)?.theme?.[themeKeyName]?.[(props as any)?.[cssPropertyKey]?.[breakpoint]] : (props as any)?.[cssPropertyKey]?.[breakpoint];
-    if (VALUE) finalValue = VALUE;
-  });
+  for (let cssPropertyKey of cssValuesArray) {
+    let cssValueFromTheme = "";
+    const cssValueFromProp = (props as any)?.[cssPropertyKey]?.[breakpoint];
+    if (themeKeyName) {
+      /** return only if value is present in theme object */
+      cssValueFromTheme = (props as any)?.theme?.[themeKeyName]?.[(props as any)?.[cssPropertyKey]?.[breakpoint]];
+    }
+    finalValue = cssValueFromTheme || cssValueFromProp;
+    /** when cssValue is present */
+    if (finalValue) break;
+  }
   return finalValue || "";
 };
